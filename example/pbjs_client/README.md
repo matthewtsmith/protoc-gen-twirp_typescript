@@ -1,4 +1,4 @@
-# Generating protobuf.js client and testing
+# Twirp Protobuf.js Client
 
 ## Generate Protobuf.js Code
 

@@ -4,7 +4,7 @@ module.exports = {
     entry: './main',
 
     output: {
-        path: path.join(__dirname, 'build'),
+        path: path.join(__dirname, 'dist'),
         filename: 'main.js'
     },
 

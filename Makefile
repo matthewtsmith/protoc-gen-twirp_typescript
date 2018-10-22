@@ -24,5 +24,11 @@ run: install
 build_linux:
 	GOOS=linux GOARCH=amd64 go build -o ${BINARY} ${LDFLAGS} go.larrymyers.com/protoc-gen-twirp_typescript
 
+client_setup:
+	cd pbjs-twirp && \
+	npm link && \
+	cd ../example/pbjs_client && \
+	npm link pbjs-twirp
+
 clean:
 	-rm -f ${GOPATH}/bin/${BINARY}
