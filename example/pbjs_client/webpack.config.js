@@ -1,34 +1,33 @@
-var path = require('path');
+const path = require('path');
 
-module.exports = function(env, argv) {
-    return {
-        entry: './main',
+module.exports = {
+    entry: './main',
 
-        output: {
-            path: path.join(__dirname, 'build'),
-            filename: 'main.js'
-        },
+    output: {
+        path: path.join(__dirname, 'build'),
+        filename: 'main.js'
+    },
 
-        resolve: {
-            extensions: ['.ts', '.js']
-        },
+    resolve: {
+        extensions: ['.ts', '.js']
+    },
 
-        module: {
-            rules: [
-                {
-                    test: /\.ts$/,
-                    use: ['ts-loader']
-                }
-            ]
-        },
+    module: {
+        rules: [
+            {
+                test: /\.ts$/,
+                use: ['ts-loader']
+            }
+        ]
+    },
 
-        devtool: 'inline-source-map',
+    mode: 'development',
 
-        devServer: {
-            contentBase: 'public',
-            host: '0.0.0.0',
-            port: 8081
-        }
+    devtool: 'inline-source-map',
+
+    devServer: {
+        contentBase: 'public',
+        host: '0.0.0.0',
+        port: 8081
     }
 };
-

@@ -10,7 +10,6 @@ import (
 	"github.com/golang/protobuf/proto"
 	"github.com/golang/protobuf/protoc-gen-go/descriptor"
 	plugin "github.com/golang/protobuf/protoc-gen-go/plugin"
-	"go.larrymyers.com/protoc-gen-twirp_typescript/generator"
 )
 
 const apiTemplate = `
@@ -177,15 +176,15 @@ func (ctx *APIContext) enableUnmarshal(m *Model) {
 	}
 }
 
-func NewGenerator(p generator.Params) generator.Generator {
-	return &minimalGenerator{params: p}
+func NewGenerator(p map[string]string) *Generator {
+	return &Generator{params: p}
 }
 
-type minimalGenerator struct {
-	params generator.Params
+type Generator struct {
+	params map[string]string
 }
 
-func (g *minimalGenerator) Generate(d *descriptor.FileDescriptorProto) ([]*plugin.CodeGeneratorResponse_File, error) {
+func (g *Generator) Generate(d *descriptor.FileDescriptorProto) ([]*plugin.CodeGeneratorResponse_File, error) {
 	var files []*plugin.CodeGeneratorResponse_File
 
 	// skip WKT Timestamp, we don't do any special serialization for jsonpb.

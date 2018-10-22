@@ -1,4 +1,4 @@
-## Generating protobuf.js client and testing
+# Generating protobuf.js client and testing
 
 ## Generate Protobuf.js Code
 
@@ -6,6 +6,10 @@
     npm install
     pbjs -t static-module -w commonjs -o ./service.pb.js ../service.proto
     pbts --no-comments -o ./service.pb.d.ts ./service.pb.js
+    
+## Generate Protobuf.js Twirp Adapter
+
+    protoc --twirp_typescript_out=library=pbjs:./example/pbjs_client ./example/service.proto
 
 ## Start Server
 
@@ -15,7 +19,7 @@
 ## Develop
 
     cd example/pbjs_client
-    webpack-dev-server --mode development    
+    webpack-dev-server  
     http://localhost:8081
     
 ## Build

@@ -1,6 +1,6 @@
-import {createTwirpHaberdasher} from './service.twirp';
+import {createHaberdasher} from './service.twirp';
 
-const haberdasher = createTwirpHaberdasher('http://localhost:8080');
+const haberdasher = createHaberdasher('http://localhost:8080');
 
 haberdasher.makeHat({inches: 10})
     .then((hat) => console.log(hat))

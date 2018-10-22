@@ -9,10 +9,8 @@ import (
 	"go.larrymyers.com/protoc-gen-twirp_typescript/generator/pbjs"
 )
 
-type Params map[string]string
-
-func GetParameters(in *plugin.CodeGeneratorRequest) Params {
-	params := make(Params)
+func GetParameters(in *plugin.CodeGeneratorRequest) map[string]string {
+	params := make(map[string]string)
 
 	if in.Parameter == nil {
 		return params
@@ -32,7 +30,7 @@ type Generator interface {
 	Generate(d *descriptor.FileDescriptorProto) ([]*plugin.CodeGeneratorResponse_File, error)
 }
 
-func NewGenerator(p Params) Generator {
+func NewGenerator(p map[string]string) Generator {
 	lib, ok := p["library"]
 	if ok && lib == "pbjs" {
 		return pbjs.NewGenerator()
