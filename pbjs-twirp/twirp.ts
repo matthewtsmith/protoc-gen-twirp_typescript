@@ -1,6 +1,5 @@
-import {AxiosError, AxiosResponse} from 'axios';
+import {AxiosError, AxiosInstance, AxiosResponse} from 'axios';
 import {Message, Method, rpc, RPCImpl, RPCImplCallback} from 'protobufjs';
-import axios from 'axios';
 
 interface TwirpError {
     code: string;
@@ -28,8 +27,7 @@ const getTwirpError = (err: AxiosError): TwirpError => {
             try {
                 twirpError = JSON.parse(s);
             } catch (e) {
-                // swallow json errors, because even if the server sends malformed json
-                // we have no way to safely recover in a way the caller cares about
+                twirpError.msg = `JSON.parse() error: ${e.toString()}`
             }
         }
     }
@@ -37,11 +35,11 @@ const getTwirpError = (err: AxiosError): TwirpError => {
     return twirpError;
 };
 
-export const createTwirpAdapter = (hostname: string, methodLookup: (fn: any) => string): RPCImpl => {
+export const createTwirpAdapter = (axios: AxiosInstance, methodLookup: (fn: any) => string): RPCImpl => {
     return (method: Method | rpc.ServiceMethod<Message<{}>,Message<{}>>, requestData: Uint8Array, callback: RPCImplCallback) => {
         axios({
             method: 'POST',
-            url: hostname + methodLookup(method),
+            url: methodLookup(method),
             headers: {
                 'Content-Type': 'application/protobuf'
             },

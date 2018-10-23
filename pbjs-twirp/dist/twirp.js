@@ -1,9 +1,5 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var axios_1 = __importDefault(require("axios"));
 var getTwirpError = function (err) {
     var resp = err.response;
     var twirpError = {
@@ -22,18 +18,17 @@ var getTwirpError = function (err) {
                 twirpError = JSON.parse(s);
             }
             catch (e) {
-                // swallow json errors, because even if the server sends malformed json
-                // we have no way to safely recover in a way the caller cares about
+                twirpError.msg = "JSON.parse() error: " + e.toString();
             }
         }
     }
     return twirpError;
 };
-exports.createTwirpAdapter = function (hostname, methodLookup) {
+exports.createTwirpAdapter = function (axios, methodLookup) {
     return function (method, requestData, callback) {
-        axios_1.default({
+        axios({
             method: 'POST',
-            url: hostname + methodLookup(method),
+            url: methodLookup(method),
             headers: {
                 'Content-Type': 'application/protobuf'
             },
